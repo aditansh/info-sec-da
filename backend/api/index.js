@@ -1,10 +1,11 @@
-require("dotenv").config();
-const express = require("express");
-const { db } = require("./db/schema");
+import dotenv from "dotenv";
+dotenv.config();
+import express, { json } from "express";
+import { db } from "./db/db.js";
 const app = express();
 // const routes = require("./routes/index");
 
-app.use(express.json());
+app.use(json());
 // app.use("/", routes);
 
 app.get("/ping", (req, res) => {
