@@ -6,13 +6,15 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "schema:gen": "drizzle-kit generate:sqlite --out api/db/migrations --schema api/db/schema.js",
-    "schema:migrate": "pnpm api/db/migrate.js"
+    "schema:gen": "drizzle-kit generate:sqlite",
+    "schema:migrate": "pnpm api/db/migrate.js",
+    "schema:push": "pnpm drizzle-kit push:sqlite"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@libsql/client": "^0.6.0",
+    "@libsql/client": "^0.3.2",
+    "cors": "^2.8.5",
     "drizzle-orm": "^0.30.8",
     "express": "^4.19.2",
     "multer": "1.4.5-lts.1"

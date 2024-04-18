@@ -1,12 +1,11 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 import express, { json } from "express";
-import { db } from "./db/db.js";
+import cors from "cors";
 const app = express();
-// const routes = require("./routes/index");
-
+import routes from "./routes/index.js";
 app.use(json());
-// app.use("/", routes);
+app.use(cors());
+app.use("/", routes);
 
 app.get("/ping", (req, res) => {
   res.status(200).json({
@@ -20,6 +19,5 @@ if (port == null || port == "") {
   port = 3000;
 }
 app.listen(port, async () => {
-  // console.log(db);
   console.log("running at " + port);
 });
