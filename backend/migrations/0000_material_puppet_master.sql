@@ -3,9 +3,7 @@ CREATE TABLE `movies` (
 	`title` text NOT NULL,
 	`year` integer,
 	`director` text,
-	`genre` text,
-	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	`updated_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL
+	`genre` text
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
@@ -15,9 +13,7 @@ CREATE TABLE `users` (
 	`password` text NOT NULL,
 	`email` text,
 	`phone` text,
-	`role` text DEFAULT 'user' NOT NULL,
-	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	`updated_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL
+	`role` text DEFAULT user NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `title_idx` ON `movies` (`title`);--> statement-breakpoint

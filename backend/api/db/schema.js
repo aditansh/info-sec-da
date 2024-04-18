@@ -15,13 +15,7 @@ export const users = sqliteTable(
     password: text("password").notNull(),
     email: text("email"),
     phone: text("phone"),
-    role: text("role").notNull().default("user"),
-    createdAt: integer("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: integer("updated_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
+    role: text("role").notNull().default(sql`user`),
   },
   (users) => ({
     nameIdx: uniqueIndex("id_idx").on(users.id),
@@ -36,12 +30,6 @@ export const movies = sqliteTable(
     year: integer("year"),
     director: text("director"),
     genre: text("genre"),
-    createdAt: integer("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: integer("updated_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
   },
   (movies) => ({
     titleIdx: uniqueIndex("title_idx").on(movies.title),
