@@ -18,3 +18,8 @@ export interface Movie {
   director: string;
   genre: string;
 }
+
+export interface Blog {
+  title: string;
+  content: string;
+}

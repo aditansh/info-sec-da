@@ -15,7 +15,9 @@ export const users = sqliteTable(
     password: text("password").notNull(),
     email: text("email"),
     phone: text("phone"),
-    role: text("role").notNull().default(sql`user`),
+    role: text("role")
+      .notNull()
+      .default(sql`user`),
   },
   (users) => ({
     nameIdx: uniqueIndex("id_idx").on(users.id),
@@ -33,5 +35,17 @@ export const movies = sqliteTable(
   },
   (movies) => ({
     titleIdx: uniqueIndex("title_idx").on(movies.title),
+  })
+);
+
+export const blogs = sqliteTable(
+  "blogs",
+  {
+    id: integer("id").primaryKey(),
+    title: text("title").notNull(),
+    content: text("content"),
+  },
+  (blogs) => ({
+    idIdx: uniqueIndex("id_idx").on(blogs.title),
   })
 );

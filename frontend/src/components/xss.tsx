@@ -21,10 +21,10 @@ export default function XSS() {
       <br />
       <div className="flex gap-4">
         <Button>
-          <Link href="/sqli">Learn More</Link>
+          <Link href="/xss">Learn More</Link>
         </Button>
         <Button>
-          <Link href="/sqli">Try Now</Link>
+          <Link href="/xss/demo">Try Now</Link>
         </Button>
       </div>
     </div>

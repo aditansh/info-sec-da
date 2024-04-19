@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { sql } from "drizzle-orm";
-import { db } from "../db/db.js";
-import { SQLiteDialect } from "drizzle-orm/sqlite-core";
+import { db } from "../db/db.js"
 
 export const search = async (req, res) => {
   try {
