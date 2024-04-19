@@ -27,16 +27,12 @@ export default function Page() {
       </div>
 
       <div className="mt-4 rounded-lg bg-zinc-500/50 p-4">
-        <h1
-          id="name"
-          className="text-2xl font-semibold"
-          dangerouslySetInnerHTML={{ __html: searchParams.get("name") ?? "" }}
-        />
-        <p
-          id="desc"
-          className="mt-2"
-          dangerouslySetInnerHTML={{ __html: searchParams.get("desc") ?? "" }}
-        />
+        <h1 id="name" className="text-2xl font-semibold">
+          {searchParams.get("name") ?? ""}
+        </h1>
+        <p id="desc" className="mt-2">
+          {searchParams.get("desc") ?? ""}
+        </p>
       </div>
     </div>
   );
