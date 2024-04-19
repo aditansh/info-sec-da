@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   type ColumnDef,
@@ -15,7 +15,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { usePathname } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -35,15 +34,9 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const pathname = usePathname();
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  useEffect(() => {
-    console.log(pathname);
-  }, [pathname]);
-
 
   const table = useReactTable({
     data,
@@ -72,9 +65,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="ml-[60px] min-h-screen space-y-4 bg-white px-10 py-5">e:\Clubs\Codechef\devsoc24\devsoc24-admin\src\app\(verified)\users\columns.tsx
+    <div className="mt-10 space-y-4 rounded-lg bg-zinc-500/50 p-4">
       <div className="rounded-md border shadow-md">
-        <Table className="bg-background rounded-md">
+        <Table className="rounded-md bg-background">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -116,7 +109,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No Users
+                  No Movies
                 </TableCell>
               </TableRow>
             )}

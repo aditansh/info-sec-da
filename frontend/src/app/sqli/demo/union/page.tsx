@@ -12,16 +12,21 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios, { isAxiosError } from "axios";
+import { type APIResponse, type Movie } from "@/types";
+import { DataTable } from "@/components/data-table/data-table";
+import { columns } from "@/components/data-table/columns";
 
 const SearchSchema = z.object({
   value: z.string(),
 });
 
 export default function Page() {
+  const [data, setData] = useState<Movie[]>();
+
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
@@ -29,8 +34,20 @@ export default function Page() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof SearchSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SearchSchema>) {
+    try {
+      const { data } = await axios.post<APIResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/search`,
+        values,
+      );
+      setData(data.data as Movie[]);
+    } catch (err) {
+      if (isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          setData([]);
+        }
+      }
+    }
   }
 
   return (
@@ -83,6 +100,8 @@ export default function Page() {
           />
         </form>
       </Form>
+
+      {data && <DataTable data={data} columns={columns} />}
     </div>
   );
 }

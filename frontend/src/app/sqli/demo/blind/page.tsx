@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
+import axios, { isAxiosError } from "axios";
+import { type APIResponse, type User } from "@/types";
 
 const LoginSchema = z.object({
   username: z.string(),
@@ -25,6 +27,7 @@ const LoginSchema = z.object({
 export default function Page() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [role, setRole] = useState<string>();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -34,13 +37,28 @@ export default function Page() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof LoginSchema>) {
-    setIsSubmit(true);
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    try {
+      setIsSubmit(true);
+      const { data } = await axios.post<APIResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/login`,
+        values,
+      );
+      const user = data.data as User;
+      setRole(user.role);
+    } catch (err) {
+      if (isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          setRole("invalid");
+        }
+      }
+    }
   }
 
   function onReset() {
-    setIsSubmit((prev) => !prev);
+    setIsSubmit(false);
+    setIsShowPassword(false);
+    setRole(undefined);
     form.reset();
   }
 
@@ -97,13 +115,14 @@ export default function Page() {
                       type={isShowPassword ? "text" : "password"}
                       placeholder="Password"
                       disabled={isSubmit}
-                      className="pr-12"
+                      className="pr-10"
                     />
                     <Button
                       variant="ghost"
                       size="icon"
+                      type="button"
                       onClick={() => setIsShowPassword(!isShowPassword)}
-                      className="absolute right-2 top-1/2 w-10 -translate-y-1/2 transform"
+                      className="absolute right-0 top-1/2 w-10 -translate-y-1/2 transform"
                     >
                       {isShowPassword ? <EyeOffIcon /> : <EyeIcon />}
                     </Button>
@@ -141,6 +160,21 @@ export default function Page() {
               &apos; AND password = &apos;{form.getValues("password")}&apos;;
             </code>
           </p>
+        </div>
+      )}
+
+      {role && (
+        <div className="mt-4 rounded-lg bg-zinc-500/50 p-4">
+          {role === "invalid" ? (
+            <p className="text-red-500">Invalid username or password</p>
+          ) : (
+            <>
+              <p>
+                <b>Role: </b>
+                {role}
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
