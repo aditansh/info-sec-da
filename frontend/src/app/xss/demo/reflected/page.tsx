@@ -76,13 +76,13 @@ export default function Page() {
               </FormItem>
             )}
           />
-          <Link
+          <a
             href={`./reflected/preview?name=${form.getValues().name}&desc=${form.getValues().desc}`}
           >
             <Button type="button" className="w-full">
               Preview
             </Button>
-          </Link>
+          </a>
         </form>
       </Form>
     </div>

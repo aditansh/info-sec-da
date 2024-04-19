@@ -52,14 +52,14 @@ export default function Page() {
         </Link>
       </div>
       {data.map((blog) => (
-        <Link
+        <a
           href={`./stored/preview?name=${blog.title}&desc=${blog.content}`}
           key={blog.title}
         >
           <div className="mt-4 rounded-lg bg-zinc-500/50 p-4">
             <h1 className="text-2xl font-semibold">{blog.title}</h1>
           </div>
-        </Link>
+        </a>
       ))}
     </div>
   );
