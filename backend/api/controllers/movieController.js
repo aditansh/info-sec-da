@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { sql } from "drizzle-orm";
+import { eq, like } from "drizzle-orm";
 import { db } from "../db/db.js";
+import { movies } from "../db/schema.js";
 
 export const search = async (req, res) => {
   try {
@@ -14,15 +15,17 @@ export const search = async (req, res) => {
       });
     }
 
-    const query = "select * from movies where title like '%" + title + "%';";
+    const result = await db
+      .select()
+      .from(movies)
+      .where(like(movies.title, "%" + title + "%"))
+      .run();
 
-    const movies = await db.run(sql.raw(query));
-
-    if (movies.rows.length > 0) {
+    if (result.rows.length > 0) {
       return res.status(200).json({
         status: true,
         msg: "Movies found",
-        data: movies.rows,
+        data: result.rows,
       });
     }
 

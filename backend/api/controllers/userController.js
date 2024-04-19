@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "../db/db.js";
+import { users } from "../db/schema.js";
 
 export async function login(req, res) {
   try {
@@ -14,8 +15,12 @@ export async function login(req, res) {
       });
     }
 
-    const query = "select * from users where username = '" + username + "' and password = '" + password + "';";
-    const result = await db.run(sql.raw(query));
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.username, username))
+      .where(eq(users.password, password))
+      .run();
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
