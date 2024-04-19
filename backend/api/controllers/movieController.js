@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { sql } from "drizzle-orm";
-import { db } from "../db/db.js"
+import { db } from "../db/db.js";
 
 export const search = async (req, res) => {
   try {
@@ -14,16 +14,9 @@ export const search = async (req, res) => {
       });
     }
 
-    // console.log(`select * from movies where title like ${title};`);
-    // console.log(
-    //   `select * from movies where title like '' UNION SELECT id, name, email, password, username FROM users;`
-    // );
+    const query = "select * from movies where title like '%" + title + "%';";
 
-    const movies = await db.run(
-      sql`select * from movies where title like ${title};`
-    );
-
-    // console.log(movies);
+    const movies = await db.run(sql.raw(query));
 
     if (movies.rows.length > 0) {
       return res.status(200).json({

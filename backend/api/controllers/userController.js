@@ -14,12 +14,11 @@ export async function login(req, res) {
       });
     }
 
-    const users = await db.run(
-      sql`select * from users where username = ${username} and password = ${password};`
-    );
+    const query = "select * from users where username = '" + username + "' and password = '" + password + "';";
+    const result = await db.run(sql.raw(query));
 
-    if (users.rows.length > 0) {
-      const user = users.rows[0];
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
       return res.status(200).json({
         status: true,
         msg: "Login successful",
